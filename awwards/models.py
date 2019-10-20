@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
+from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Profile(models.Model):
@@ -20,15 +21,16 @@ class Project(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     description = models.TextField(max_length=250)
     link = models.URLField(max_length=60)
-    date = models.DateField(auto_now=True)
+    date_posted = date_posted = models.DateTimeField(default=timezone.now)
     screen1 = models.ImageField(upload_to='screenshots/',blank=True)
     screen2 = models.ImageField(upload_to='screenshots/',blank=True)
 
-    class Meta:
-        ordering=['-title']
-
     def __str__(self):
         return self.title
+
+    class Meta:
+        ordering = ['-date_posted']    
+
 
 class Rate(models.Model):
     design = models.PositiveIntegerField(default=0,validators=[MaxValueValidator(10)])
