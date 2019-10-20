@@ -1,4 +1,38 @@
-{% extends 'base.html' %}
+{%extends 'base.html'%}
 
-{% block content %}
-{% endblock content %}
+{{block.super}}
+{%block content%}
+<div style="margin-top: 100px;">
+  <div class="container-fluid">
+
+    <div style="text-align: center;">
+      <h4>Welcome to awwards {{ user.username }}</h4>
+      <h5>The following are various projects that have been posted</h5>
+    </div>
+    <div class="mt-4">
+      <div class="row">
+        {%for project in projects%}
+        <div class="col-md-4 mb-5">
+          <div class="card content">
+            <div class="image">
+              <a class="img" href="/project/{{ project.id }}">
+                <img style="width:500px; height: 300px;" class="img-fluid" src="{{ project.image.url }}" alt=""></a>
+            </div>
+            <div >
+              <i class="fas fa-pastafarianism"></i>
+              <p class="ml-4 mt-1 text-muted">{{ project.title }} by {{project.user}}</p>
+              <div class="card-footer">
+                <i class="text-secondary">Posted on {{ project.date }}</i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {%endfor%}
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{%endblock%}
