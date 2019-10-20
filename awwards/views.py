@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.http import Http404
+from .models import Project
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 
@@ -13,8 +15,17 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'registration/register.html', {'form':form})
+
+def index(request):
+    return render(request, 'index.html')
+
+@login_required
 def home(request):
-    return render(request, 'home.html')
+    try:
+        projects = Project.objects.all()
+    except Exception as e:
+        raise  Http404()
+    return render(request, 'home.html', {'projects':projects})
 
 
 @login_required
