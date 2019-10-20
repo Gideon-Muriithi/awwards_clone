@@ -15,11 +15,11 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarToggle">
                         <div class="navbar-nav mr-auto">
-                            <a class="navbar-brand" href="/"><img
+                            <a class="navbar-brand mt-1" href="/"><img
                                     src="https://png.icons8.com/linen/50/000000/rating.png"
                                     style="height:40px;width:36px;">
                             </a>
-                            <a class="navbar-brand" style="color: rgb(65, 64, 64);" href="/">AWARDS</a>
+                            <a class="navbar-brand mt-2" style="color: rgb(65, 64, 64);" href="/">AWARDS</a>
 
                             <a style="margin-left: 200px;">
                                 <div class="col-md-12 nav-search mt-2">
@@ -29,17 +29,18 @@
                                     </form>
                                 </div>
                             </a>
+                            <a class="navbar-brand mt-2" style="color: rgb(65, 64, 64);" href="/">Post A Project</a>
                         </div>
 
                         <!-- Navbar Right Side -->
-                        <div style="margin-bottom: 30px; margin-left: 390px;" class="mt-4">
-                            <a href="#">
+                        <div style="margin-bottom: 30px; margin-left: 200px;" class="mt-5">
+                            <a href="{% url 'profile' %}">
                                 <i class="ml-5 fa fa-user" style="font-size:28px; color: rgb(24, 24, 24);"></i>
                             </a>
                             <div class="ml-1 dropdown">
-                                <button class="dropbtn">{{ user.username }}</button>
+                                <p class="dropbtn">{{ user.username }}</p>
                                 <div class="dropdown-content">
-                                    <a href="#">Profile</a>
+                                    <a href="{% url 'profile' %}">Profile</a>
                                     <a href="{% url 'logout' %}">Logout</a>
                                 </div>
                             </div> 
