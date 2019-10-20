@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import Http404
 from .models import Project
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm,ProjectPostForm
 from django.contrib.auth.decorators import login_required
 
 def register(request):
@@ -49,3 +49,17 @@ def profile(request):
     }
 
     return render(request, 'users/profile.html', context)
+
+@login_required
+def post_project(request):
+    current_user = request.user
+    if request.method=='POST':
+        form = ProjectPostForm(request.POST,request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = current_user
+            post.save()
+        return redirect("home")
+    else:
+        form = ProjectPostForm()
+    return render(request,'project_post.html',{'form':form})
