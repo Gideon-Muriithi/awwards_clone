@@ -5,9 +5,13 @@
 <div style="margin-top: 100px;">
   <div class="container-fluid">
 
-    <div style="text-align: center;">
-      <h4>Welcome to awwards {{ user.username }}</h4>
-      <h5>The following are various projects that have been posted</h5>
+    <div >
+      {% if projects %}
+        <h4 style="text-align: center;" class="mb-4">Welcome to awwards {{ user.username|capfirst }}</h4>
+        <h5>The following are various projects that have been posted</h5>
+      {% else %}
+        <h4>No projects to show at the moment. You can post a project though.</h4>
+      {% endif %}
     </div>
     <div class="mt-4">
       <div class="row">
@@ -20,7 +24,7 @@
             </div>
             <div >
               <i class="fas fa-pastafarianism"></i>
-              <p class="ml-4 mt-1 text-muted">{{ project.title }} by {{project.user}}</p>
+              <p class="ml-4 mt-1 text-muted">{{ project.title }} by {{ project.user }}</p>
               <div class="card-footer">
                 <i class="text-secondary">Posted on {{ project.date_posted }}</i>
               </div>

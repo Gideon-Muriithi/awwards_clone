@@ -23,6 +23,5 @@ urlpatterns = [
     url(r'', include('awwards.urls')),
     url('^register/', awwards_views.register, name='register'),
     url('login/', views.LoginView.as_view(template_name='registration/login.html'), name='login'),
-    # url(r'^logout/$', views.logout, {"next_page": '/'}),
     url('^logout/$', views.LogoutView.as_view(template_name='registration/logout.html'), name='logout'),
 ]
