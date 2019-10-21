@@ -22,9 +22,7 @@ class Project(models.Model):
     description = models.TextField(max_length=250)
     link = models.URLField(max_length=60)
     date_posted = date_posted = models.DateTimeField(default=timezone.now)
-    screen1 = models.ImageField(upload_to='screenshots/',blank=True)
-    screen2 = models.ImageField(upload_to='screenshots/',blank=True)
-
+    
     def __str__(self):
         return self.title
 
@@ -39,7 +37,14 @@ class Rate(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     project = models.IntegerField(default=0)
 
-class Comment(models.Model):
+    def __str__(self):
+        return str(self.user)
+
+
+class Review(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    comment = models.TextField(max_length=200)
-    pro_id = models.IntegerField(default=0)
+    review = models.TextField(max_length=250)
+    profile_id = models.IntegerField(default=0)
+    
+    def __str__(self):
+        return self.review
