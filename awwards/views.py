@@ -1,8 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import Http404
-from .models import Project
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm,ProjectPostForm
+from .models import Project, Rate, Review
+from .forms import( UserRegisterForm, 
+UserUpdateForm, 
+ProfileUpdateForm,
+ProjectPostForm,
+RateForm,
+ReviewForm
+)
 from django.contrib.auth.decorators import login_required
 
 def register(request):
@@ -63,3 +69,86 @@ def post_project(request):
     else:
         form = ProjectPostForm()
     return render(request,'project_post.html',{'form':form})
+
+
+def project_details(request,project_id):
+    projects = Project.objects.filter(id=project_id)
+    all_rates = Rate.objects.filter(project=project_id)
+  
+    count = 0
+    for i in all_rates:
+        count+=i.usability
+        count+=i.design
+        count+=i.content
+
+    if count > 0:
+        av_rate = round(count/3,1) 
+    else:
+        av_rate = 0
+
+    if request.method=='POST':
+        form = RateForm(request.POST)
+        if form.is_valid():
+            rate = form.save(commit=False)
+            rate.user = request.user
+            rate.project = project_id
+            rate.save()
+            return redirect('project_details',project_id)
+    else:
+        form = RateForm()
+
+    votes = Rate.objects.filter(project=project_id)
+    usability = []
+    design = []
+    content = []
+
+    for i in votes:
+        usability.append(i.usability)
+        design.append(i.design)
+        content.append(i.content)
+    if len(usability) > 0 or len(design)> 0 or len(content) >0:
+        av_usability = round(sum(usability)/len(usability),1)
+        av_design = round(sum(design)/len(design),1)
+        av_content = round(sum(content)/len(content),1)
+        avRating = round((av_content + av_design + av_usability)/3,1)
+    else:
+        av_usability = 0.0
+        av_design = 0.0
+        av_content = 0.0
+        avRating = 0.0
+
+    '''
+    Restricting user to rate only once
+    '''
+    arr1=[]
+    for use in votes:
+        arr1.append(use.user_id)
+    auth = arr1
+
+    if request.method=='POST':
+        r_form = ReviewForm(request.POST)
+        if r_form.is_valid():
+            review = r_form.save(commit=False)
+            review.user = request.user
+            review.profile_id = project_id
+            review.save()
+            return redirect('project_details',project_id)
+    else:
+        r_form = ReviewForm()
+    r_form = ReviewForm()
+    user_review = Review.objects.filter(profile_id=project_id)
+
+    context = {
+        'projects':projects,
+        'form':form,
+        'usability':av_usability, 
+        'design':av_design,
+        'content':av_content,
+        'average':avRating,
+        'auth':auth,
+        'all_rates':all_rates,
+        'av_rate':av_rate,
+        'r_form':r_form,
+        'review':user_review
+        }
+    return render(request,'project_details.html', context)
