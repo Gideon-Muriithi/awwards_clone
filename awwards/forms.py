@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from .models import Profile, Project
+from .models import Profile, Project, Rate, Review
 from django.contrib.auth.models import User
 
 class UserRegisterForm(UserCreationForm):
@@ -27,3 +27,14 @@ class ProjectPostForm(forms.ModelForm):
     class Meta:
         model=Project
         exclude=['user','design','usability','content']
+
+class RateForm(forms.ModelForm):
+    class Meta:
+        model = Rate
+        exclude = ['user','project']
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        exclude = ['user','profile_id']
