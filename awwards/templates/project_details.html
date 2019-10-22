@@ -88,18 +88,11 @@
                 <div class="ml-4 mt-5">
                     <h4 style="margin-left: 90px;">Reviews</h4>
                     <hr>
+                    <div>
                     {% for rev in review %}
-                    <table width="400">
-                        <tr>
-                            <th>Reviewer</th>
-                            <th>Review</th>
-                        </tr>
-                        <tr>
-                            <td>{{ rev.user|capfirst }}</td>
-                            <td>{{ rev.review}} </td>
-                        </tr>
-                    </table>
+                            <p>{{ rev.user|capfirst }}<span class="ml-5">{{ rev.review}}</span></p>
                 </div>
+            </div>
                 {% empty %}
                 <p class="alert alert-info">Be the 1st to review</p>
                 {%endfor%}
