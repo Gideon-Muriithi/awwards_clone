@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import Http404
 from .models import Project, Rate, Review
+from django.contrib.auth.models import User
 from .forms import( UserRegisterForm, 
 UserUpdateForm, 
 ProfileUpdateForm,
@@ -51,7 +52,7 @@ def profile(request):
 
     context = {
         'u_form':u_form,
-        'p_form':p_form
+        'p_form':p_form,
     }
 
     return render(request, 'users/profile.html', context)
@@ -70,7 +71,7 @@ def post_project(request):
         form = ProjectPostForm()
     return render(request,'project_post.html',{'form':form})
 
-
+@login_required
 def project_details(request,project_id):
     projects = Project.objects.filter(id=project_id)
     all_rates = Rate.objects.filter(project=project_id)
@@ -153,6 +154,7 @@ def project_details(request,project_id):
         }
     return render(request,'project_details.html', context)
 
+@login_required
 def search(request):
     if 'search' in request.GET and request.GET['search']:
         search_term = request.GET.get('search')
@@ -161,3 +163,10 @@ def search(request):
     else:
         message="You have not searched any project"
         return render(request,'search.html',{'message': message})
+
+@login_required
+def apiView(request):
+    user = request.user
+    title="Api"
+    profile = Profile.objects.filter(user=user)[0:1]
+    return render(request,'api.html',{"title":title,'profile':profile})

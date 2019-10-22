@@ -23,6 +23,7 @@ class Project(models.Model):
     link = models.URLField(max_length=60)
     date_posted = date_posted = models.DateTimeField(default=timezone.now)
     
+    
     def __str__(self):
         return self.title
 
@@ -34,6 +35,11 @@ class Project(models.Model):
         searched_project = cls.objects.filter(title__icontains=term)
         return searched_project
 
+    @classmethod
+    def get_profile_projects(cls, user):
+        projects = Project.objects.filter(user__pk = user)
+        return projects
+    
 
 
 class Rate(models.Model):
