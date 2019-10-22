@@ -74,7 +74,7 @@
     <hr>
     <div class="container mb-5">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 {%for p in projects%}
                 <form class="" action="/project/{{p.id}}/" method="post">
                     <p>Leave a review of the project</p>
@@ -84,18 +84,28 @@
                 </form>
                 {%endfor%}
             </div>
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <div class="ml-4 mt-5">
                     <h4 style="margin-left: 90px;">Reviews</h4>
                     <hr>
                     <div>
-                    {% for rev in review %}
-                            <p>{{ rev.user|capfirst }}<span class="ml-5">{{ rev.review}}</span></p>
-                </div>
-            </div>
-                {% empty %}
-                <p class="alert alert-info">Be the 1st to review</p>
-                {%endfor%}
+                            {%  for rev in review %}
+                            <div class="mb-4">
+                                <div class="card">
+                                    <p class="ml-3">
+                                        <img style="width: 70px; height: 60px;" class="ml-2 mt-3 rounded-circle account-img"
+                                            src="{{ user.profile.profile_pic.url }}" alt="Profile Picture">
+                                        <span class="mt-5">{{ rev.user|capfirst }}</span>
+                                    </p>
+                                    <hr>
+                                    <p class="ml-5">
+                                        {{ rev.review}}
+                                    </p>
+                                </div>
+                            </div>
+                            {% empty %}
+                                <p class="alert alert-info">Be the 1st to review</p>
+                            {% endfor %}
             </div>
         </div>
     </div>

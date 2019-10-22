@@ -26,7 +26,7 @@
               <i class="fas fa-pastafarianism"></i>
               <p class="ml-4 mt-1 text-muted">{{ project.title }} by {{ project.user|capfirst }}</p>
               <div class="card-footer">
-                <i class="text-secondary">Posted on {{ project.date_posted }}</i>
+                <i class="text-secondary">Posted on {{ project.date_posted|date:"M d, Y" }}</i>
               </div>
             </div>
           </div>
