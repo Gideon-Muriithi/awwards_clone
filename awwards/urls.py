@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^user/profile/$', views.profile, name='profile'),
     url(r'^project/(\d+)/',views.project_details,name='project_details'),
     url(r'project/post/$',views.post_project,name='post_project'),
+    url(r'^search/projects/results/$',views.search,name="search"),
 ]
 
 if settings.DEBUG:

@@ -27,7 +27,13 @@ class Project(models.Model):
         return self.title
 
     class Meta:
-        ordering = ['-date_posted']    
+        ordering = ['-date_posted']   
+
+    @classmethod
+    def search_project(cls,term):
+        searched_project = cls.objects.filter(title__icontains=term)
+        return searched_project
+
 
 
 class Rate(models.Model):

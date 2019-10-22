@@ -152,3 +152,12 @@ def project_details(request,project_id):
         'review':user_review
         }
     return render(request,'project_details.html', context)
+
+def search(request):
+    if 'search' in request.GET and request.GET['search']:
+        search_term = request.GET.get('search')
+        results = Project.search_project(search_term)
+        return render(request,'search.html',{'projects': results})
+    else:
+        message="You have not searched any project"
+        return render(request,'search.html',{'message': message})
